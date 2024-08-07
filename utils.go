@@ -145,3 +145,29 @@ func makeKeysMap(keys []string) map[string]any {
 	}
 	return keysMap
 }
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+func MapStrAnyToMapStrStr(originalMap map[string]any) map[string]string {
+	convertedMap := make(map[string]string)
+
+	for key, value := range originalMap {
+		switch v := value.(type) {
+		case string:
+			convertedMap[key] = v
+		case int:
+			convertedMap[key] = strconv.Itoa(v)
+		case float64:
+			convertedMap[key] = strconv.FormatFloat(v, 'f', -1, 64)
+		case bool:
+			convertedMap[key] = strconv.FormatBool(v)
+		case []string:
+			arr, _ := json.Marshal(v)
+			convertedMap[key] = string(arr)
+		default:
+			// Optionally, handle other types or ignore them
+		}
+	}
+
+	return convertedMap
+}

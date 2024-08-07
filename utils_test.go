@@ -153,3 +153,28 @@ func TestSetFloatField(t *testing.T) {
 		t.Errorf("Expected Amount to be %v, but got %v", expected, instance.Field3)
 	}
 }
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+func TestMapStrAnyToMapStrStr(t *testing.T) {
+	input := map[string]interface{}{
+		"name":      "Alice",
+		"age":       25,
+		"number":    8.2,
+		"isStudent": true,
+		"hobbies":   []string{"reading", "swimming"},
+	}
+
+	output := map[string]string{
+		"name":      "Alice",
+		"age":       "25",
+		"number":    "8.2",
+		"isStudent": "true",
+		"hobbies":   `["reading","swimming"]`,
+	}
+
+	result := MapStrAnyToMapStrStr(input)
+	if !reflect.DeepEqual(result, output) {
+		t.Errorf("convertMap(%v) = %v; want %v", input, result, output)
+	}
+}
