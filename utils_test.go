@@ -20,7 +20,6 @@ type NestedStruct struct {
 
 func TestSetBoolField(t *testing.T) {
 	instance := &StructA{}
-
 	err := FromMap(instance, map[string]any{"field0": "true"}, "field0")
 	if err != nil {
 		t.Errorf("Error: %v", err)
@@ -32,6 +31,19 @@ func TestSetBoolField(t *testing.T) {
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
+
+	instance = &StructA{}
+	err = FromMapString(instance, map[string]string{"field0": "true"}, "field0")
+	if err != nil {
+		t.Errorf("Error: %v", err)
+	}
+
+	if instance.Field0 != expected {
+		t.Errorf("Expected Flag to be %v, but got %v", expected, instance.Field0)
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////
+
 	instance = &StructA{}
 	err = FromMap(instance, map[string]any{"field0": true}, "field0")
 	if err != nil {

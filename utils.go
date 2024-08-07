@@ -15,7 +15,7 @@ var (
 )
 
 // populateStructFromMap function to populate struct fields from map values
-func FromMap(resultPointer interface{}, data map[string]interface{}, accessKey ...string) error {
+func FromMap(resultPointer any, data map[string]any, accessKey ...string) error {
 	if len(accessKey) == 0 {
 		return ErrNotHaveAccessKeys
 	}
@@ -36,8 +36,16 @@ func FromMap(resultPointer interface{}, data map[string]interface{}, accessKey .
 	return nil
 }
 
+func FromMapString(resultPointer any, strData map[string]string, accessKey ...string) error {
+	data := make(map[string]any, len(strData))
+	for k, v := range strData {
+		data[k] = v
+	}
+	return FromMap(resultPointer, data, accessKey...)
+}
+
 // Function to set a field value using a path of JSON tags
-func fromPathAndValue(obj interface{}, path []string, value interface{}) (err error) {
+func fromPathAndValue(obj any, path []string, value any) (err error) {
 	v := reflect.ValueOf(obj).Elem() // Get the value of the passed object
 
 	for _, tag := range path[:len(path)-1] {
