@@ -123,14 +123,13 @@ func ConvertStringToType(val string, targetType reflect.Type) (reflect.Value, er
 		}
 		return reflect.ValueOf(boolVal), nil
 	case reflect.Slice:
-		if targetType.Elem().Kind() == reflect.String {
-			// Assume comma-separated values for slice of strings
-			jsonSlice := make([]string, 0)
-			if err := json.Unmarshal([]byte(val), &jsonSlice); err != nil {
-				return reflect.Value{}, err
-			}
-			return reflect.ValueOf(jsonSlice), nil
+		// Assume comma-separated values for slice of strings
+		jsonSlice := make([]any, 0)
+		if err := json.Unmarshal([]byte(val), &jsonSlice); err != nil {
+			return reflect.Value{}, err
 		}
+		return reflect.ValueOf(jsonSlice), nil
+
 	// Add more cases as needed
 	default:
 		return reflect.Value{}, fmt.Errorf("unsupported type: %s", targetType.Kind())
