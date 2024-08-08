@@ -161,7 +161,7 @@ func MapStrAnyToMapStrStr(originalMap map[string]any) map[string]string {
 			convertedMap[key] = strconv.FormatFloat(v, 'f', -1, 64)
 		case bool:
 			convertedMap[key] = strconv.FormatBool(v)
-		case []string:
+		case []any:
 			arr, _ := json.Marshal(v)
 			convertedMap[key] = string(arr)
 		default:
