@@ -95,6 +95,14 @@ func findFieldByTag(v reflect.Value, tag string) reflect.Value {
 		if fieldTag == tag {
 			return v.Field(i)
 		}
+
+		// Handle embedded structs
+		if field.Anonymous && v.Field(i).Kind() == reflect.Struct {
+			embeddedField := findFieldByTag(v.Field(i), tag)
+			if embeddedField.IsValid() {
+				return embeddedField
+			}
+		}
 	}
 	return reflect.Value{}
 }

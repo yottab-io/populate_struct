@@ -6,17 +6,32 @@ import (
 )
 
 // Define StructA with nested structures and a slice field
-type StructA struct {
-	Field0  bool         `json:"field0"`
-	Field1  int          `json:"field1"`
-	Field2  string       `json:"field2"`
-	Field3  float64      `json:"field3"`
-	Nested  NestedStruct `json:"nested"`
-	Strings []string     `json:"strings"`
-}
-type NestedStruct struct {
-	NestedField int `json:"field0"`
-}
+type (
+	StructA struct {
+		StructX
+	}
+
+	StructX struct {
+		StructY
+	}
+
+	StructY struct {
+		StructZ
+	}
+
+	StructZ struct {
+		Field0  bool         `json:"field0"`
+		Field1  int          `json:"field1"`
+		Field2  string       `json:"field2"`
+		Field3  float64      `json:"field3"`
+		Nested  NestedStruct `json:"nested"`
+		Strings []any        `json:"strings"`
+	}
+
+	NestedStruct struct {
+		NestedField int `json:"field0"`
+	}
+)
 
 func TestSetBoolField(t *testing.T) {
 	instance := &StructA{}
@@ -135,7 +150,7 @@ func TestSetSliceField(t *testing.T) {
 		t.Errorf("Error: %v", err)
 	}
 
-	expected := []string{"a", "b", "c"}
+	expected := []any{"a", "b", "c"}
 	if !reflect.DeepEqual(instance.Strings, expected) {
 		t.Errorf("Expected Strings to be %v, but got %v", expected, instance.Strings)
 	}
@@ -162,7 +177,7 @@ func TestMapStrAnyToMapStrStr(t *testing.T) {
 		"age":       25,
 		"number":    8.2,
 		"isStudent": true,
-		"hobbies":   []string{"reading", "swimming"},
+		"hobbies":   []any{"reading", "swimming"},
 	}
 
 	output := map[string]string{
