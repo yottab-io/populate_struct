@@ -71,7 +71,8 @@ func fromPathAndValue(obj any, path []string, value any) (err error) {
 
 	val := reflect.ValueOf(value)
 	if finalField.Type() != val.Type() {
-		val, err = ConvertStringToType(val.String(), finalField.Type())
+		strVal := fmt.Sprint(val)
+		val, err = ConvertStringToType(strVal, finalField.Type())
 		if err != nil {
 			return err
 		}
@@ -110,13 +111,18 @@ func findFieldByTag(v reflect.Value, tag string) reflect.Value {
 // Helper function to convert value types
 func ConvertStringToType(val string, targetType reflect.Type) (reflect.Value, error) {
 	switch targetType.Kind() {
-	case reflect.Int, reflect.Uint,
-		reflect.Int32, reflect.Uint32:
-		intVal, err := strconv.ParseFloat(val, 64)
+	case reflect.Int:
+		floatVal, err := strconv.ParseFloat(val, 64)
 		if err != nil {
 			return reflect.Value{}, fmt.Errorf("cannot convert %s to int: %v", val, err)
 		}
-		return reflect.ValueOf(int(intVal)), nil
+		return reflect.ValueOf(int(floatVal)), nil
+	case reflect.Int32:
+		floatVal, err := strconv.ParseFloat(val, 64)
+		if err != nil {
+			return reflect.Value{}, fmt.Errorf("cannot convert %s to int: %v", val, err)
+		}
+		return reflect.ValueOf(int32(floatVal)), nil
 	case reflect.String:
 		return reflect.ValueOf(val), nil
 	case reflect.Float64:

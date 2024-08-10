@@ -21,15 +21,14 @@ type (
 
 	StructZ struct {
 		Field0  bool         `json:"field0"`
-		Field1  int32        `json:"field1"`
-		Field2  string       `json:"field2"`
-		Field3  float64      `json:"field3"`
+		Field1  string       `json:"field1"`
+		Field2  float64      `json:"field2"`
 		Nested  NestedStruct `json:"nested"`
 		Strings []any        `json:"strings"`
 	}
 
 	NestedStruct struct {
-		NestedField int `json:"field0"`
+		NestedField int32 `json:"field0"`
 	}
 )
 
@@ -78,7 +77,7 @@ func TestSetIntField(t *testing.T) {
 		t.Errorf("Error: %v", err)
 	}
 
-	expected := 2
+	var expected int32 = 2
 	if instance.Nested.NestedField != expected {
 		t.Errorf("Expected Nested.NestedField to be %d, but got %d", expected, instance.Nested.NestedField)
 	}
@@ -130,14 +129,14 @@ func TestPathField(t *testing.T) {
 func TestSetStringField(t *testing.T) {
 	instance := &StructA{}
 
-	err := FromMap(instance, map[string]any{"field2": "updated"}, "field2")
+	err := FromMap(instance, map[string]any{"field1": "updated"}, "field1")
 	if err != nil {
 		t.Errorf("Error: %v", err)
 	}
 
 	expected := "updated"
-	if instance.Field2 != expected {
-		t.Errorf("Expected Field2 to be %s, but got %s", expected, instance.Field2)
+	if instance.Field1 != expected {
+		t.Errorf("Expected Field2 to be %s, but got %s", expected, instance.Field1)
 	}
 }
 
@@ -158,14 +157,14 @@ func TestSetSliceField(t *testing.T) {
 
 func TestSetFloatField(t *testing.T) {
 	instance := &StructA{}
-	err := FromMap(instance, map[string]any{"field3": "12.34"}, "field3")
+	err := FromMap(instance, map[string]any{"field2": "12.34"}, "field2")
 	if err != nil {
 		t.Errorf("Error: %v", err)
 	}
 
 	expected := 12.34
-	if instance.Field3 != expected {
-		t.Errorf("Expected Amount to be %v, but got %v", expected, instance.Field3)
+	if instance.Field2 != expected {
+		t.Errorf("Expected Amount to be %v, but got %v", expected, instance.Field2)
 	}
 }
 
