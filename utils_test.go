@@ -21,7 +21,7 @@ type (
 
 	StructZ struct {
 		Field0  bool         `json:"field0"`
-		Field1  int          `json:"field1"`
+		Field1  int32        `json:"field1"`
 		Field2  string       `json:"field2"`
 		Field3  float64      `json:"field3"`
 		Nested  NestedStruct `json:"nested"`
