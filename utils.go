@@ -149,7 +149,6 @@ func ConvertStringToType(val string, targetType reflect.Type) (reflect.Value, er
 	default:
 		return reflect.Value{}, fmt.Errorf("unsupported type: %s", targetType.Kind())
 	}
-	return reflect.Value{}, fmt.Errorf("unsupported type: %s", targetType.Kind())
 }
 
 func makeKeysMap(keys []string) map[string]any {
