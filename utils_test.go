@@ -34,7 +34,7 @@ type (
 
 func TestSetBoolField(t *testing.T) {
 	instance := &StructA{}
-	err := FromMap(instance, map[string]any{"field0": "true"}, "field0")
+	err := FromMap(instance, ColonSplitChar, map[string]any{"field0": "true"}, "field0")
 	if err != nil {
 		t.Errorf("Error: %v", err)
 	}
@@ -47,7 +47,7 @@ func TestSetBoolField(t *testing.T) {
 	//////////////////////////////////////////////////////////////////////////////////
 
 	instance = &StructA{}
-	err = FromMapString(instance, map[string]string{"field0": "true"}, "field0")
+	err = FromMapString(instance, ColonSplitChar, map[string]string{"field0": "true"}, "field0")
 	if err != nil {
 		t.Errorf("Error: %v", err)
 	}
@@ -59,7 +59,7 @@ func TestSetBoolField(t *testing.T) {
 	//////////////////////////////////////////////////////////////////////////////////
 
 	instance = &StructA{}
-	err = FromMap(instance, map[string]any{"field0": true}, "field0")
+	err = FromMap(instance, ColonSplitChar, map[string]any{"field0": true}, "field0")
 	if err != nil {
 		t.Errorf("Error: %v", err)
 	}
@@ -72,7 +72,7 @@ func TestSetBoolField(t *testing.T) {
 func TestSetIntField(t *testing.T) {
 	instance := &StructA{}
 
-	err := FromMap(instance, map[string]any{"nested.field0": 2}, "nested")
+	err := FromMap(instance, ColonSplitChar, map[string]any{"nested:field0": 2}, "nested")
 	if err != nil {
 		t.Errorf("Error: %v", err)
 	}
@@ -84,7 +84,7 @@ func TestSetIntField(t *testing.T) {
 
 	//////////////////////////////////////////////////////////////////////////////////
 	instance = &StructA{}
-	err = FromMap(instance, map[string]any{"nested.field0": "2"}, "nested")
+	err = FromMap(instance, ColonSplitChar, map[string]any{"nested:field0": "2"}, "nested")
 	if err != nil {
 		t.Errorf("Error: %v", err)
 	}
@@ -95,7 +95,7 @@ func TestSetIntField(t *testing.T) {
 
 	//////////////////////////////////////////////////////////////////////////////////
 	instance = &StructA{}
-	err = FromMap(instance, map[string]any{"nested.field0": "-2.2"}, "nested")
+	err = FromMap(instance, ColonSplitChar, map[string]any{"nested:field0": "-2.2"}, "nested")
 	if err != nil {
 		t.Errorf("Error: %v", err)
 	}
@@ -109,17 +109,17 @@ func TestSetIntField(t *testing.T) {
 func TestPathField(t *testing.T) {
 	instance := &StructA{}
 
-	err := FromMap(instance, map[string]any{"nested.field0": 2})
+	err := FromMap(instance, ColonSplitChar, map[string]any{"nested:field0": 2})
 	if err == nil {
 		t.Errorf("Expected an error for not have access key, but got none")
 	}
 
-	err = FromMap(instance, map[string]any{"nested.field0": 2}, "nonexistent")
+	err = FromMap(instance, ColonSplitChar, map[string]any{"nested:field0": 2}, "nonexistent")
 	if err == nil {
 		t.Errorf("Expected an error for not have access key, but got none")
 	}
 
-	err = FromMap(instance, map[string]any{"nested.nonexistent": 2}, "nested")
+	err = FromMap(instance, ColonSplitChar, map[string]any{"nested:nonexistent": 2}, "nested")
 	if err == nil {
 		t.Errorf("Expected an error for not have access key, but got none")
 	}
@@ -129,7 +129,7 @@ func TestPathField(t *testing.T) {
 func TestSetStringField(t *testing.T) {
 	instance := &StructA{}
 
-	err := FromMap(instance, map[string]any{"field1": "updated"}, "field1")
+	err := FromMap(instance, ColonSplitChar, map[string]any{"field1": "updated"}, "field1")
 	if err != nil {
 		t.Errorf("Error: %v", err)
 	}
@@ -144,7 +144,7 @@ func TestSetStringField(t *testing.T) {
 func TestSetSliceField(t *testing.T) {
 	instance := &StructA{}
 
-	err := FromMap(instance, map[string]any{"strings": `["a", "b", "c"]`}, "strings")
+	err := FromMap(instance, ColonSplitChar, map[string]any{"strings": `["a", "b", "c"]`}, "strings")
 	if err != nil {
 		t.Errorf("Error: %v", err)
 	}
@@ -157,7 +157,7 @@ func TestSetSliceField(t *testing.T) {
 
 func TestSetFloatField(t *testing.T) {
 	instance := &StructA{}
-	err := FromMap(instance, map[string]any{"field2": "12.34"}, "field2")
+	err := FromMap(instance, ColonSplitChar, map[string]any{"field2": "12.34"}, "field2")
 	if err != nil {
 		t.Errorf("Error: %v", err)
 	}

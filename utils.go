@@ -9,20 +9,24 @@ import (
 	"strings"
 )
 
+const (
+	ColonSplitChar = ":"
+)
+
 var (
-	ErrParameterNotAccessToSet = errors.New("")
-	ErrNotHaveAccessKeys       = errors.New("")
+	ErrParameterNotAccessToSet = errors.New("error Parameter Not Access To Set")
+	ErrNotHaveAccessKeys       = errors.New("error Not Have Access Keys")
 )
 
 // populateStructFromMap function to populate struct fields from map values
-func FromMap(resultPointer any, data map[string]any, accessKey ...string) error {
+func FromMap(resultPointer any, splitChar string, data map[string]any, accessKey ...string) error {
 	if len(accessKey) == 0 {
 		return ErrNotHaveAccessKeys
 	}
 	accessMap := makeKeysMap(accessKey)
 
 	for key, value := range data {
-		path := strings.Split(key, ".")
+		path := strings.Split(key, splitChar)
 
 		if _, exist := accessMap[path[0]]; !exist {
 			return ErrParameterNotAccessToSet
@@ -36,12 +40,12 @@ func FromMap(resultPointer any, data map[string]any, accessKey ...string) error 
 	return nil
 }
 
-func FromMapString(resultPointer any, strData map[string]string, accessKey ...string) error {
+func FromMapString(resultPointer any, splitChar string, strData map[string]string, accessKey ...string) error {
 	data := make(map[string]any, len(strData))
 	for k, v := range strData {
 		data[k] = v
 	}
-	return FromMap(resultPointer, data, accessKey...)
+	return FromMap(resultPointer, splitChar, data, accessKey...)
 }
 
 // Function to set a field value using a path of JSON tags
