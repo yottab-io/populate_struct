@@ -71,3 +71,17 @@ func JsonReplaceInterface(s, d any) error {
 
 	return nil
 }
+
+func ConvertStructToMapStringAny(obj any) (map[string]any, error) {
+	jsonObj, err := json.Marshal(obj)
+	if err != nil {
+		return nil, err
+	}
+
+	mapStrToAny := make(map[string]any, 0)
+	if err := json.Unmarshal(jsonObj, &mapStrToAny); err != nil {
+		return nil, err
+	}
+
+	return mapStrToAny, nil
+}
