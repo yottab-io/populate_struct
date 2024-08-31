@@ -16,6 +16,7 @@ const (
 var (
 	ErrParameterNotAccessToSet = errors.New("error Parameter Not Access To Set")
 	ErrNotHaveAccessKeys       = errors.New("error Not Have Access Keys")
+	ErrFieldNotFound           = errors.New("error field not found")
 )
 
 // Helper function to convert value types

@@ -106,18 +106,32 @@ func TestSetIntField(t *testing.T) {
 func TestPathField(t *testing.T) {
 	instance := &StructA{}
 
-	err := MapToStruct(instance, map[string]string{"Nested.NestedField": "2"}, "test.esc")
+	err := MapToStruct(instance, map[string]string{"test.esc.Nested.NestedField": "2"}, "test.esc")
 	if err != nil {
 		t.Errorf("Error: %v", err)
 	}
-	var expected int32 = 0
+	var expected int32 = 2
 	if instance.Nested.NestedField != expected {
 		t.Errorf("Expected Nested.NestedField to be %d, but got %d", expected, instance.Nested.NestedField)
 	}
 
+	// test no set
+	instance = &StructA{}
+	err = MapToStruct(instance, map[string]string{"Nested.NestedField": "2"}, "test.esc")
+	if err != nil {
+		t.Errorf("Error: %v", err)
+	}
+
+	expected = 0
+	if instance.Nested.NestedField != expected {
+		t.Errorf("Expected Nested.NestedField to be %d, but got %d", expected, instance.Nested.NestedField)
+	}
+
+	// test set to Non Existent Field must be scape
+	instance = &StructA{}
 	err = MapToStruct(instance, map[string]string{"Nested.NonExistent": "2"}, ClearEscapePath)
-	if err == nil {
-		t.Errorf("Expected an error for not have access key, but got none")
+	if err != nil {
+		t.Errorf("Expected no error for not have access key, but got err: %s", err.Error())
 	}
 }
 

@@ -52,6 +52,9 @@ func fromPathAndValue(obj any, fields []string, value string) error {
 	// Get the final field to set the value
 	finalField, err := findField(obj, fields)
 	if err != nil {
+		if err == ErrFieldNotFound {
+			return nil
+		}
 		return err
 	}
 
@@ -79,7 +82,7 @@ func findField(obj any, path []string) (reflect.Value, error) {
 		val = val.FieldByName(field)
 
 		if !val.IsValid() {
-			return val, fmt.Errorf("field %s not found", field)
+			return val, ErrFieldNotFound
 		}
 
 		if val.Kind() == reflect.Ptr {
