@@ -9,7 +9,7 @@ import (
 )
 
 // StructToMap converts a struct to a map[string]string using the struct's JSON tags
-func StructToMap(data interface{}, prefix ...string) map[string]string {
+func StructToMap(data any, prefix ...string) map[string]string {
 	result := make(map[string]string)
 
 	value := reflect.ValueOf(data)
